@@ -4,7 +4,9 @@ namespace Sheduler_Lib
     [Serializable]
     public class StandartTask : Task
     {
+        [field: NonSerialized]
         protected internal override event TaskStateHandler Created;
+        [field: NonSerialized]
         protected internal override event TaskStateHandler ChangedStatus;
 
         public StandartTask(string name, string comment) : base(name, comment)

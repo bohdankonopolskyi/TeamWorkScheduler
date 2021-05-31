@@ -5,7 +5,9 @@ namespace Sheduler_Lib
     [Serializable]
     public class DevTeam : IEmployable
     {
+        [field: NonSerialized]
         internal event ExecutorStateHandler Added;
+        [field: NonSerialized]
         internal event ExecutorStateHandler Removed;
 
         private readonly string _teamName;

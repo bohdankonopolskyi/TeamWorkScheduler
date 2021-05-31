@@ -6,7 +6,9 @@ namespace Sheduler_Lib
     [Serializable]
     public class UrgentTask: Task
     {
+        [field: NonSerialized]
         protected internal override event TaskStateHandler Created;
+        [field: NonSerialized]
         protected internal override event TaskStateHandler ChangedStatus;
 
         private DateTime _deadline;     // date and time of task deadline

@@ -45,6 +45,7 @@ namespace Scheduler_Application
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.NewTskButton = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -67,6 +68,8 @@ namespace Scheduler_Application
             this.button2 = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.GiveTskButton = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
@@ -84,8 +87,6 @@ namespace Scheduler_Application
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -210,7 +211,7 @@ namespace Scheduler_Application
             this.label13.Font = new System.Drawing.Font("Segoe UI", 19.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.label13.Location = new System.Drawing.Point(401, 14);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(258, 46);
+            this.label13.Size = new System.Drawing.Size(249, 45);
             this.label13.TabIndex = 10;
             this.label13.Text = "Create new task";
             // 
@@ -262,6 +263,7 @@ namespace Scheduler_Application
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button1);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.label15);
             this.tabPage2.Controls.Add(this.textBox3);
@@ -280,6 +282,17 @@ namespace Scheduler_Application
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             this.tabPage2.Enter += new System.EventHandler(this.tabPage2_Enter);
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.button1.Location = new System.Drawing.Point(935, 13);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(132, 35);
+            this.button1.TabIndex = 22;
+            this.button1.Text = "Save and exit";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // groupBox1
             // 
@@ -504,6 +517,24 @@ namespace Scheduler_Application
             this.panel1.Size = new System.Drawing.Size(620, 150);
             this.panel1.TabIndex = 8;
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(49, 13);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(79, 25);
+            this.label19.TabIndex = 14;
+            this.label19.Text = "Executor";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(284, 13);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(51, 25);
+            this.label18.TabIndex = 13;
+            this.label18.Text = "Days";
+            // 
             // numericUpDown1
             // 
             this.numericUpDown1.Location = new System.Drawing.Point(239, 51);
@@ -672,24 +703,6 @@ namespace Scheduler_Application
             this.label1.TabIndex = 3;
             this.label1.Text = "Development team";
             // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(284, 13);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(51, 25);
-            this.label18.TabIndex = 13;
-            this.label18.Text = "Days";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(49, 13);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(79, 25);
-            this.label19.TabIndex = 14;
-            this.label19.Text = "Executor";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -780,6 +793,7 @@ namespace Scheduler_Application
         private System.Windows.Forms.DataGridViewTextBoxColumn OccuColumn;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button button1;
     }
 }
 

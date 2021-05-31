@@ -6,8 +6,11 @@ namespace Sheduler_Lib
     [Serializable]
     public abstract class Task : ITask
     {   
+        [field: NonSerialized]
         protected internal virtual event TaskStateHandler Created;
+        [field: NonSerialized]
         protected internal virtual event ExecutorStateHandler TakenToWork;
+        [field: NonSerialized]
         protected internal virtual event TaskStateHandler ChangedStatus;
      
         protected  uint _id;   // identifier of task

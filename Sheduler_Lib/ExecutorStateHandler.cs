@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Sheduler_Lib
 {
-    
+    [field: NonSerialized]
     public delegate void ExecutorStateHandler(object sender, ExecutorEventArgs e);
     
     

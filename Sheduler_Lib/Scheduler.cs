@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 using System.Timers;
 
 namespace Sheduler_Lib
@@ -17,7 +15,7 @@ namespace Sheduler_Lib
         public DevTeam Team => _team;
         public T[] Tasks => tasks;
 
-        public Scheduler(string s_name)
+        public Scheduler()
         {
             _team = new DevTeam();
         }
@@ -89,6 +87,7 @@ namespace Sheduler_Lib
             timer.Enabled = true;
         }
 
+        
         public void OnTimedOverdue(object sender, System.Timers.ElapsedEventArgs e)
         {
             for (int i = 0; i < tasks.Length; i++)
@@ -170,13 +169,6 @@ namespace Sheduler_Lib
             return null;
         }
 
-        public void ToFile()
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream("Scheduler.dat", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, this);
-            }
-        }
+        
     }
 }

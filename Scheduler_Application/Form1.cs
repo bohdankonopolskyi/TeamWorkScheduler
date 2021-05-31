@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using Sheduler_Lib;
 using Task = Sheduler_Lib.Task;
@@ -9,7 +10,7 @@ namespace Scheduler_Application
     public partial class Form1 : Form
     {
         Scheduler<Task> scheduler;
-        
+        SerializeScheduler serializator;
 
         public Form1()
         {
@@ -18,12 +19,24 @@ namespace Scheduler_Application
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            scheduler = new Scheduler<Task>("Scheduler 1");
+            scheduler = new Scheduler<Task>();
+            serializator = new SerializeScheduler();
+            
             FillTaskList();
             scheduler.EstimateTime();
             FillEmployeeList();
             SetTab1();
             SetTab2();
+            SetTab3();
+            try
+            {
+                scheduler = serializator.FromFile();
+            }
+            catch(System.Runtime.Serialization.SerializationException)
+            {
+                MessageBox.Show("File doesn`t exists or is empty. Fill in the data and restart the program.", "Data download error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         // event Click on button Create New Task
@@ -336,9 +349,11 @@ namespace Scheduler_Application
         private void tabPage1_Enter(object sender, EventArgs e)
         {
             SetTab1();
+            
         }
         private void tabPage2_Enter(object sender, EventArgs e)
         {
+
             FillTaskList();
         }
 
@@ -373,7 +388,15 @@ namespace Scheduler_Application
 
         }
 
-        
-        
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            
+            serializator.ToFile(scheduler);
+            DialogResult dialogResult =  MessageBox.Show("The data was saved successefully. Do you want to Exit?" , "Save all and exit", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            if(dialogResult == DialogResult.OK)
+            {
+                Application.Exit();
+            }
+        }
     }
 }
