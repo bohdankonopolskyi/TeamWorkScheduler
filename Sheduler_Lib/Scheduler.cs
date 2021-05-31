@@ -81,7 +81,7 @@ namespace Sheduler_Lib
         public void EstimateTime()
         {
             timer = new Timer();
-            timer.Interval = 6 * Math.Pow(10, 4);
+            timer.Interval = 6 * Math.Pow(10, 5);
             timer.AutoReset = true;
             timer.Elapsed += OnTimedOverdue;
             timer.Enabled = true;
