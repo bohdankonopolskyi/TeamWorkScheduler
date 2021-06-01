@@ -10,14 +10,18 @@ namespace Sheduler_Lib
         private static Timer timer;
         private DevTeam _team;
         T[] tasks;
+        private List<Task> disabled_tasks;
 
         
         public DevTeam Team => _team;
         public T[] Tasks => tasks;
+        public List<Task> DisabledTasks => disabled_tasks;
 
         public Scheduler()
         {
             _team = new DevTeam();
+            disabled_tasks = new List<Task>();
+            
         }
         
 
@@ -97,7 +101,14 @@ namespace Sheduler_Lib
                     UrgentTask urgentTask = tasks[i] as UrgentTask;
                     urgentTask.Overdue();
 
-                    tasks[i] = urgentTask as T;
+                    if (tasks[i].GetStatus == Status.Overdue)
+                    {
+                        if (disabled_tasks == null)
+                            disabled_tasks = new List<Task>();
+
+                        disabled_tasks.Add(tasks[i]);
+                        DeleteTask(i);
+                    }
                 }
             }
         }
@@ -120,11 +131,27 @@ namespace Sheduler_Lib
         }
         public void Complete(uint id)
         {
+            
             int index = GetTaskIndex(id);
             if (index > -1)
             {
                 if (tasks[index] != null)
+                { 
                     tasks[index].CompleteTask();
+
+                    
+                    if(tasks[index].GetStatus == Status.Done)
+                    {
+                        if (disabled_tasks == null)
+                            disabled_tasks = new List<Task>();
+
+                        disabled_tasks.Add(tasks[index]);
+                        DeleteTask(index);
+                    }
+                    
+                }
+                    
+
 
                 else
                     throw new NullReferenceException("An empty task object was passed as ArgumentNullException argument");
@@ -169,6 +196,31 @@ namespace Sheduler_Lib
             return null;
         }
 
-        
+
+        public void DeleteTask(uint id)
+        {
+            int index = GetTaskIndex(id);
+
+            T[] temp = new T[tasks.Length - 1];
+
+            for (int i = 0; i < index; i++)
+                temp[i] = tasks[i];
+            for (int i = index + 1; i < tasks.Length; i++)
+                temp[i - 1] = tasks[i];
+
+            tasks = temp;
+        }
+
+        public void DeleteTask(int index)
+        {
+            T[] temp = new T[tasks.Length - 1];
+
+            for (int i = 0; i < index; i++)
+                temp[i] = tasks[i];
+            for (int i = index + 1; i < tasks.Length; i++)
+                temp[i - 1] = tasks[i];
+
+            tasks = temp;
+        }
     }
 }

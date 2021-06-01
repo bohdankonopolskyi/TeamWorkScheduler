@@ -22,7 +22,7 @@ namespace Scheduler_Application
             scheduler = new Scheduler<Task>();
             serializator = new SerializeScheduler();
             
-            FillTaskList();
+            FillActiveTaskList();
             scheduler.EstimateTime();
             FillEmployeeList();
             SetTab1();
@@ -212,7 +212,7 @@ namespace Scheduler_Application
             }
         }
 
-        private void FillTaskList()
+        private void FillActiveTaskList()
         {
             string id, name, executor, creation, deadline, priority, status;
 
@@ -261,12 +261,66 @@ namespace Scheduler_Application
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show("Couldn`t load the job description", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Couldn`t load the task description", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
             
             // combobox
             //datagrid view of dev team
+        }
+
+        private void FillDisabledTaskList()
+        {
+            string id, name, executor, creation, deadline, priority, status;
+
+            dataGridView2.Rows.Clear();
+            dataGridView2.Refresh();
+            try
+            {
+                if (scheduler.DisabledTasks != null)
+                {
+                    for (int i = 0; i < scheduler.DisabledTasks.Count; i++)
+                    {
+                        if (scheduler.DisabledTasks[i] is UrgentTask)
+                        {
+                            UrgentTask urgentTask = scheduler.DisabledTasks[i] as UrgentTask;
+                            id = urgentTask.Id.ToString();
+                            name = urgentTask.Name;
+                            if (urgentTask.Executor != null)
+                                executor = urgentTask.Executor.Name;
+                            else
+                                executor = "Is not set";
+                            creation = urgentTask.CreationDate.Date.ToShortDateString();
+                            deadline = urgentTask.DeadLine.Date.ToShortDateString();
+                            priority = urgentTask.GetPriority.ToString();
+                            status = urgentTask.GetStatus.ToString();
+
+                            dataGridView2.Rows.Add(id, name, executor, creation, deadline, priority, status);
+                        }
+
+                        if (scheduler.DisabledTasks[i] is StandartTask)
+                        {
+                            StandartTask standartTask = scheduler.DisabledTasks[i] as StandartTask;
+                            id = standartTask.Id.ToString();
+                            name = standartTask.Name;
+                            if (standartTask.Executor != null)
+                                executor = standartTask.Executor.Name;
+                            else
+                                executor = "Is not set";
+                            creation = standartTask.CreationDate.Date.ToShortDateString();
+                            deadline = "N/A";
+                            priority = standartTask.GetPriority.ToString();
+                            status = standartTask.GetStatus.ToString();
+
+                            dataGridView2.Rows.Add(id, name, executor, creation, deadline, priority, status);
+                        }
+                    }
+                }
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Couldn`t load the task description", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -354,7 +408,7 @@ namespace Scheduler_Application
         private void tabPage2_Enter(object sender, EventArgs e)
         {
 
-            FillTaskList();
+            FillActiveTaskList();
         }
 
         private void tabPage3_Enter(object sender, EventArgs e)
@@ -365,7 +419,11 @@ namespace Scheduler_Application
 
         private void tabPage2_Click(object sender, EventArgs e)
         {
-            FillTaskList();
+            if(radioButton4.Checked == true)
+                FillActiveTaskList();
+            if (radioButton5.Checked == true)
+                FillDisabledTaskList();
+
         }
         private void tabPage1_Click(object sender, EventArgs e)
         {

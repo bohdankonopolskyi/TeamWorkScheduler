@@ -87,6 +87,8 @@ namespace Scheduler_Application
             this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.radioButton5 = new System.Windows.Forms.RadioButton();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -296,6 +298,8 @@ namespace Scheduler_Application
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.radioButton5);
+            this.groupBox1.Controls.Add(this.radioButton4);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.label7);
@@ -703,6 +707,30 @@ namespace Scheduler_Application
             this.label1.TabIndex = 3;
             this.label1.Text = "Development team";
             // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Checked = true;
+            this.radioButton4.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.radioButton4.Location = new System.Drawing.Point(25, 132);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(77, 27);
+            this.radioButton4.TabIndex = 18;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Text = "Active";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
+            // radioButton5
+            // 
+            this.radioButton5.AutoSize = true;
+            this.radioButton5.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.radioButton5.Location = new System.Drawing.Point(147, 132);
+            this.radioButton5.Name = "radioButton5";
+            this.radioButton5.Size = new System.Drawing.Size(96, 27);
+            this.radioButton5.TabIndex = 19;
+            this.radioButton5.Text = "Disabled";
+            this.radioButton5.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -794,6 +822,8 @@ namespace Scheduler_Application
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.RadioButton radioButton5;
+        private System.Windows.Forms.RadioButton radioButton4;
     }
 }
 

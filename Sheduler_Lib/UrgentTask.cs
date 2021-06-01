@@ -58,6 +58,8 @@ namespace Sheduler_Lib
                 _status = Status.Done;
                 ChangedStatus?.Invoke(this, new TaskEventArgs("The task " + _name + " is done on the time.", DateTime.Now));
             }
+            else
+                ChangedStatus?.Invoke(this, new TaskEventArgs("The task can`t be closed, it wasn`taken to work"));
 
         }
 
