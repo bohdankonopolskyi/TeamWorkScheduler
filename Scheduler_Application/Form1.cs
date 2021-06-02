@@ -98,6 +98,8 @@ namespace Scheduler_Application
                 uint task_id = Convert.ToUInt32(dataGridView2.CurrentCell.Value);
                 string executor = Convert.ToString(comboBox2.SelectedItem);
                 scheduler.Give(task_id, executor);
+                MessageBox.Show("Taken for execution by the employee", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
             catch (NullReferenceException ex)
             {
@@ -106,6 +108,10 @@ namespace Scheduler_Application
             catch (NonExistentEmployeeException ex)
             {
                 MessageBox.Show(ex.Message.ToString(), "Doesn`t exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "The wrong cell was selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         // mathod that notifies that task taken to work
@@ -118,10 +124,12 @@ namespace Scheduler_Application
 
         private void CompleteTskButton_Click(object sender, EventArgs e)
         {
-            uint id = Convert.ToUInt32(dataGridView2.CurrentCell.Value);
+            
             try
             {
+                uint id = Convert.ToUInt32(dataGridView2.CurrentCell.Value);
                 scheduler.Complete(id);
+                MessageBox.Show("Task is completed", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (NullReferenceException ex)
             {
@@ -130,6 +138,10 @@ namespace Scheduler_Application
             catch (NonExistentTaskException ex)
             {
                 MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "The wrong cell was selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private static void ChangeStatusHandler(object sender, TaskEventArgs e)
@@ -140,10 +152,11 @@ namespace Scheduler_Application
 
         private void button6_Click(object sender, EventArgs e)
         {
-            uint id = Convert.ToUInt32(dataGridView2.CurrentCell.Value);
-            int days = Convert.ToInt32(numericUpDown1.Value);
+            
             try
             {
+                uint id = Convert.ToUInt32(dataGridView2.CurrentCell.Value);
+                int days = Convert.ToInt32(numericUpDown1.Value);
                 scheduler.DeferTask(id, days);
             }
             catch(NonExistentTaskException ex)
@@ -154,7 +167,10 @@ namespace Scheduler_Application
             {
                 MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+            catch (FormatException ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "The wrong cell was selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -329,6 +345,7 @@ namespace Scheduler_Application
             {
                 string name = textBox2.Text;
                 scheduler.Team.AddMember(name);
+                textBox2.Text = "";
                 FillEmployeeList();
             }
             catch(NullReferenceException ex)
@@ -341,14 +358,22 @@ namespace Scheduler_Application
         {
             try
             {
-                uint id = Convert.ToUInt32(dataGridView1.SelectedCells);
-                scheduler.Team.RemoveEmployee(id);
+                uint id = Convert.ToUInt16(dataGridView1.CurrentCell.Value);
+                DialogResult dialogResult = MessageBox.Show("Do you want to remove Employee?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.OK)
+                {
+                    scheduler.Team.RemoveEmployee(id);
+                }
+                
             }
             catch(NonExistentEmployeeException ex)
             {
                 MessageBox.Show(ex.Message.ToString(), "Doesn`t exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            catch (FormatException ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "The wrong cell was selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             FillEmployeeList();
         }
 
@@ -407,7 +432,7 @@ namespace Scheduler_Application
         }
         private void tabPage2_Enter(object sender, EventArgs e)
         {
-
+            FillEmployeeList();
             FillActiveTaskList();
         }
 

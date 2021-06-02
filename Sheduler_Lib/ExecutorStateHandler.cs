@@ -11,7 +11,6 @@ namespace Sheduler_Lib
         public Employee Executor { get; }
         public DevTeam devTeam { get; }
 
-
         public ExecutorEventArgs(string message)
         {
             Message = message;

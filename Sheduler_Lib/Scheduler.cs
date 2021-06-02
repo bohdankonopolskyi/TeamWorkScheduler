@@ -17,6 +17,22 @@ namespace Sheduler_Lib
         public T[] Tasks => tasks;
         public List<Task> DisabledTasks => disabled_tasks;
 
+        public DevTeam DevTeam
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Task Task
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public Scheduler()
         {
             _team = new DevTeam();
@@ -85,7 +101,7 @@ namespace Sheduler_Lib
         public void EstimateTime()
         {
             timer = new Timer();
-            timer.Interval = 6 * Math.Pow(10, 5);
+            timer.Interval = 20 * Math.Pow(10, 5);
             timer.AutoReset = true;
             timer.Elapsed += OnTimedOverdue;
             timer.Enabled = true;

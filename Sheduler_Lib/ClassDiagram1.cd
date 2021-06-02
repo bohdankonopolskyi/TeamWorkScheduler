@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Sheduler_Lib.Task">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YUACIAAAEABgAIwAAABAAAQEACAAAAUAAAAAAIAAEIA=</HashCode>
+      <FileName>Task.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sheduler_Lib.StandartTask">
+    <Position X="4.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAAACAAAAQAAAAAAAAAAIA=</HashCode>
+      <FileName>StandartTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sheduler_Lib.UrgentTask">
+    <Position X="4.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAgAAAABAAAAgGAAAAQAAAAAAAAAAIA=</HashCode>
+      <FileName>UrgentTask.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sheduler_Lib.Employee">
+    <Position X="2.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAgAAAAABAAAQAAAAAAAEAAQABAAAAAAA=</HashCode>
+      <FileName>Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sheduler_Lib.DevTeam">
+    <Position X="4.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgEAAgICAAEAACQAAAIAAAAAAAAAgAAA=</HashCode>
+      <FileName>DevTeam.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Employee" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Sheduler_Lib.Scheduler&lt;T&gt;">
+    <Position X="8" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIRgAAEAAAIAIAAAQAAAAAABAAAEoAGEAMAAAAAAA=</HashCode>
+      <FileName>Scheduler.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DevTeam" />
+      <Property Name="Task" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Sheduler_Lib.SerializeScheduler">
+    <Position X="8" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAEAAAAAAAAAAA=</HashCode>
+      <FileName>SerializeScheduler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sheduler_Lib.InvalidDateTimeException" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>InvalidDateTimeException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sheduler_Lib.NonExistentTaskException" Collapsed="true">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NonExistentTaskException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sheduler_Lib.NonExistentEmployeeException" Collapsed="true">
+    <Position X="0.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>NonExistentEmployeeException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sheduler_Lib.ExecutorEventArgs">
+    <Position X="0.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAYAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>ExecutorStateHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Sheduler_Lib.TaskEventArgs" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>TaskStateHandler.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Sheduler_Lib.Status">
+    <Position X="0.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAQAAAAAAAAAAAABAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Enumerations.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sheduler_Lib.Priority">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAgAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Enumerations.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sheduler_Lib.Employee_Load">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Enumerations.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Delegate Name="Sheduler_Lib.ExecutorStateHandler">
+    <Position X="0.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ExecutorStateHandler.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Delegate Name="Sheduler_Lib.TaskStateHandler" Collapsed="true">
+    <Position X="0.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TaskStateHandler.cs</FileName>
+    </TypeIdentifier>
+  </Delegate>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

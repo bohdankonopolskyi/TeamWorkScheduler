@@ -14,6 +14,15 @@ namespace Sheduler_Lib
         private  List<Employee> _employees;
 
         public List<Employee> Employees => _employees;
+
+        public Employee Employee
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public DevTeam()
         {
            _employees = new List<Employee>();

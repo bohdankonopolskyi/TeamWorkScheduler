@@ -19,7 +19,7 @@ namespace Sheduler_Lib
             if (_status == Status.Processing)
             {
                 _status = Status.Done;
-                ChangedStatus?.Invoke(this, new TaskEventArgs("The task " + _name + " is done.", DateTime.Now));
+                ChangedStatus?.Invoke(this, new TaskEventArgs("The task " + _name + " is done."));
             }
             else 
                 ChangedStatus?.Invoke(this, new TaskEventArgs("The task can`t be closed, it wasn`taken to work"));
