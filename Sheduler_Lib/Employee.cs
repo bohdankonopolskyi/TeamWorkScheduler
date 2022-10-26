@@ -34,7 +34,6 @@ namespace Sheduler_Lib
                 _occupation = value;
             }
         }
-       
     }
 
     

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using Sheduler_Lib;
 using Task = Sheduler_Lib.Task;
@@ -9,7 +10,7 @@ namespace Scheduler_Application
     public partial class Form1 : Form
     {
         Scheduler<Task> scheduler;
-        
+        SerializeScheduler serializator;
 
         public Form1()
         {
@@ -18,12 +19,24 @@ namespace Scheduler_Application
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            scheduler = new Scheduler<Task>("Scheduler 1");
-            FillTaskList();
+            scheduler = new Scheduler<Task>();
+            serializator = new SerializeScheduler();
+            
+            FillActiveTaskList();
             scheduler.EstimateTime();
             FillEmployeeList();
             SetTab1();
             SetTab2();
+            SetTab3();
+            try
+            {
+                scheduler = serializator.FromFile();
+            }
+            catch(System.Runtime.Serialization.SerializationException)
+            {
+                MessageBox.Show("File doesn`t exists or is empty. Fill in the data and restart the program.", "Data download error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
         }
 
         // event Click on button Create New Task
@@ -85,6 +98,8 @@ namespace Scheduler_Application
                 uint task_id = Convert.ToUInt32(dataGridView2.CurrentCell.Value);
                 string executor = Convert.ToString(comboBox2.SelectedItem);
                 scheduler.Give(task_id, executor);
+                MessageBox.Show("Taken for execution by the employee", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
             }
             catch (NullReferenceException ex)
             {
@@ -93,6 +108,10 @@ namespace Scheduler_Application
             catch (NonExistentEmployeeException ex)
             {
                 MessageBox.Show(ex.Message.ToString(), "Doesn`t exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "The wrong cell was selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         // mathod that notifies that task taken to work
@@ -105,10 +124,12 @@ namespace Scheduler_Application
 
         private void CompleteTskButton_Click(object sender, EventArgs e)
         {
-            uint id = Convert.ToUInt32(dataGridView2.CurrentCell.Value);
+            
             try
             {
+                uint id = Convert.ToUInt32(dataGridView2.CurrentCell.Value);
                 scheduler.Complete(id);
+                MessageBox.Show("Task is completed", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (NullReferenceException ex)
             {
@@ -117,6 +138,10 @@ namespace Scheduler_Application
             catch (NonExistentTaskException ex)
             {
                 MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (FormatException ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "The wrong cell was selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private static void ChangeStatusHandler(object sender, TaskEventArgs e)
@@ -127,10 +152,11 @@ namespace Scheduler_Application
 
         private void button6_Click(object sender, EventArgs e)
         {
-            uint id = Convert.ToUInt32(dataGridView2.CurrentCell.Value);
-            int days = Convert.ToInt32(numericUpDown1.Value);
+            
             try
             {
+                uint id = Convert.ToUInt32(dataGridView2.CurrentCell.Value);
+                int days = Convert.ToInt32(numericUpDown1.Value);
                 scheduler.DeferTask(id, days);
             }
             catch(NonExistentTaskException ex)
@@ -141,7 +167,10 @@ namespace Scheduler_Application
             {
                 MessageBox.Show(ex.Message.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+            catch (FormatException ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "The wrong cell was selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -199,7 +228,7 @@ namespace Scheduler_Application
             }
         }
 
-        private void FillTaskList()
+        private void FillActiveTaskList()
         {
             string id, name, executor, creation, deadline, priority, status;
 
@@ -248,12 +277,66 @@ namespace Scheduler_Application
             }
             catch (NullReferenceException)
             {
-                MessageBox.Show("Couldn`t load the job description", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Couldn`t load the task description", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
             
             // combobox
             //datagrid view of dev team
+        }
+
+        private void FillDisabledTaskList()
+        {
+            string id, name, executor, creation, deadline, priority, status;
+
+            dataGridView2.Rows.Clear();
+            dataGridView2.Refresh();
+            try
+            {
+                if (scheduler.DisabledTasks != null)
+                {
+                    for (int i = 0; i < scheduler.DisabledTasks.Count; i++)
+                    {
+                        if (scheduler.DisabledTasks[i] is UrgentTask)
+                        {
+                            UrgentTask urgentTask = scheduler.DisabledTasks[i] as UrgentTask;
+                            id = urgentTask.Id.ToString();
+                            name = urgentTask.Name;
+                            if (urgentTask.Executor != null)
+                                executor = urgentTask.Executor.Name;
+                            else
+                                executor = "Is not set";
+                            creation = urgentTask.CreationDate.Date.ToShortDateString();
+                            deadline = urgentTask.DeadLine.Date.ToShortDateString();
+                            priority = urgentTask.GetPriority.ToString();
+                            status = urgentTask.GetStatus.ToString();
+
+                            dataGridView2.Rows.Add(id, name, executor, creation, deadline, priority, status);
+                        }
+
+                        if (scheduler.DisabledTasks[i] is StandartTask)
+                        {
+                            StandartTask standartTask = scheduler.DisabledTasks[i] as StandartTask;
+                            id = standartTask.Id.ToString();
+                            name = standartTask.Name;
+                            if (standartTask.Executor != null)
+                                executor = standartTask.Executor.Name;
+                            else
+                                executor = "Is not set";
+                            creation = standartTask.CreationDate.Date.ToShortDateString();
+                            deadline = "N/A";
+                            priority = standartTask.GetPriority.ToString();
+                            status = standartTask.GetStatus.ToString();
+
+                            dataGridView2.Rows.Add(id, name, executor, creation, deadline, priority, status);
+                        }
+                    }
+                }
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Couldn`t load the task description", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -262,6 +345,7 @@ namespace Scheduler_Application
             {
                 string name = textBox2.Text;
                 scheduler.Team.AddMember(name);
+                textBox2.Text = "";
                 FillEmployeeList();
             }
             catch(NullReferenceException ex)
@@ -274,14 +358,22 @@ namespace Scheduler_Application
         {
             try
             {
-                uint id = Convert.ToUInt32(dataGridView1.SelectedCells);
-                scheduler.Team.RemoveEmployee(id);
+                uint id = Convert.ToUInt16(dataGridView1.CurrentCell.Value);
+                DialogResult dialogResult = MessageBox.Show("Do you want to remove Employee?", "Warning", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
+                if (dialogResult == DialogResult.OK)
+                {
+                    scheduler.Team.RemoveEmployee(id);
+                }
+                
             }
             catch(NonExistentEmployeeException ex)
             {
                 MessageBox.Show(ex.Message.ToString(), "Doesn`t exist", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
+            catch (FormatException ex)
+            {
+                MessageBox.Show(ex.Message.ToString(), "The wrong cell was selected", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             FillEmployeeList();
         }
 
@@ -336,10 +428,12 @@ namespace Scheduler_Application
         private void tabPage1_Enter(object sender, EventArgs e)
         {
             SetTab1();
+            
         }
         private void tabPage2_Enter(object sender, EventArgs e)
         {
-            FillTaskList();
+            FillEmployeeList();
+            FillActiveTaskList();
         }
 
         private void tabPage3_Enter(object sender, EventArgs e)
@@ -350,7 +444,11 @@ namespace Scheduler_Application
 
         private void tabPage2_Click(object sender, EventArgs e)
         {
-            FillTaskList();
+            if(radioButton4.Checked == true)
+                FillActiveTaskList();
+            if (radioButton5.Checked == true)
+                FillDisabledTaskList();
+
         }
         private void tabPage1_Click(object sender, EventArgs e)
         {
@@ -373,7 +471,15 @@ namespace Scheduler_Application
 
         }
 
-        
-        
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            
+            serializator.ToFile(scheduler);
+            DialogResult dialogResult =  MessageBox.Show("The data was saved successefully. Do you want to Exit?" , "Save all and exit", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            if(dialogResult == DialogResult.OK)
+            {
+                Application.Exit();
+            }
+        }
     }
 }

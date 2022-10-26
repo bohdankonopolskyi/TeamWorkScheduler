@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
 using System.Timers;
 
 namespace Sheduler_Lib
@@ -12,14 +10,34 @@ namespace Sheduler_Lib
         private static Timer timer;
         private DevTeam _team;
         T[] tasks;
+        private List<Task> disabled_tasks;
 
         
         public DevTeam Team => _team;
         public T[] Tasks => tasks;
+        public List<Task> DisabledTasks => disabled_tasks;
 
-        public Scheduler(string s_name)
+        public DevTeam DevTeam
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Task Task
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Scheduler()
         {
             _team = new DevTeam();
+            disabled_tasks = new List<Task>();
+            
         }
         
 
@@ -83,12 +101,13 @@ namespace Sheduler_Lib
         public void EstimateTime()
         {
             timer = new Timer();
-            timer.Interval = 6 * Math.Pow(10, 4);
+            timer.Interval = 20 * Math.Pow(10, 5);
             timer.AutoReset = true;
             timer.Elapsed += OnTimedOverdue;
             timer.Enabled = true;
         }
 
+        
         public void OnTimedOverdue(object sender, System.Timers.ElapsedEventArgs e)
         {
             for (int i = 0; i < tasks.Length; i++)
@@ -98,7 +117,14 @@ namespace Sheduler_Lib
                     UrgentTask urgentTask = tasks[i] as UrgentTask;
                     urgentTask.Overdue();
 
-                    tasks[i] = urgentTask as T;
+                    if (tasks[i].GetStatus == Status.Overdue)
+                    {
+                        if (disabled_tasks == null)
+                            disabled_tasks = new List<Task>();
+
+                        disabled_tasks.Add(tasks[i]);
+                        DeleteTask(i);
+                    }
                 }
             }
         }
@@ -121,11 +147,27 @@ namespace Sheduler_Lib
         }
         public void Complete(uint id)
         {
+            
             int index = GetTaskIndex(id);
             if (index > -1)
             {
                 if (tasks[index] != null)
+                { 
                     tasks[index].CompleteTask();
+
+                    
+                    if(tasks[index].GetStatus == Status.Done)
+                    {
+                        if (disabled_tasks == null)
+                            disabled_tasks = new List<Task>();
+
+                        disabled_tasks.Add(tasks[index]);
+                        DeleteTask(index);
+                    }
+                    
+                }
+                    
+
 
                 else
                     throw new NullReferenceException("An empty task object was passed as ArgumentNullException argument");
@@ -170,13 +212,31 @@ namespace Sheduler_Lib
             return null;
         }
 
-        public void ToFile()
+
+        public void DeleteTask(uint id)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            using (FileStream fs = new FileStream("Scheduler.dat", FileMode.OpenOrCreate))
-            {
-                formatter.Serialize(fs, this);
-            }
+            int index = GetTaskIndex(id);
+
+            T[] temp = new T[tasks.Length - 1];
+
+            for (int i = 0; i < index; i++)
+                temp[i] = tasks[i];
+            for (int i = index + 1; i < tasks.Length; i++)
+                temp[i - 1] = tasks[i];
+
+            tasks = temp;
+        }
+
+        public void DeleteTask(int index)
+        {
+            T[] temp = new T[tasks.Length - 1];
+
+            for (int i = 0; i < index; i++)
+                temp[i] = tasks[i];
+            for (int i = index + 1; i < tasks.Length; i++)
+                temp[i - 1] = tasks[i];
+
+            tasks = temp;
         }
     }
 }

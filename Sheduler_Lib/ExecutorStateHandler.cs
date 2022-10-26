@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Sheduler_Lib
 {
-    
+    [field: NonSerialized]
     public delegate void ExecutorStateHandler(object sender, ExecutorEventArgs e);
     
     
@@ -10,7 +10,6 @@ namespace Sheduler_Lib
         public string Message { get; }
         public Employee Executor { get; }
         public DevTeam devTeam { get; }
-
 
         public ExecutorEventArgs(string message)
         {

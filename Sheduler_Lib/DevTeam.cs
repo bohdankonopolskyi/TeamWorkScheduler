@@ -5,13 +5,24 @@ namespace Sheduler_Lib
     [Serializable]
     public class DevTeam : IEmployable
     {
+        [field: NonSerialized]
         internal event ExecutorStateHandler Added;
+        [field: NonSerialized]
         internal event ExecutorStateHandler Removed;
 
         private readonly string _teamName;
         private  List<Employee> _employees;
 
         public List<Employee> Employees => _employees;
+
+        public Employee Employee
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public DevTeam()
         {
            _employees = new List<Employee>();

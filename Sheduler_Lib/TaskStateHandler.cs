@@ -1,6 +1,7 @@
 ﻿using System;
 namespace Sheduler_Lib
 {
+    [field: NonSerialized]
     public delegate void TaskStateHandler(object sender, TaskEventArgs e);
 
 
